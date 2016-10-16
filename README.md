@@ -110,12 +110,12 @@ Properties
 ###9 Demo: Creating and Running an Apache Kafka Producer Application in Java
 code
 ```
-import org.apache.kafka clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
 
-public Main{
+public Pro{
  public static void main(String[] args){
   Properties props = new Properties();
   props.put("bootstrap.servers","localhost:9092,localhost:9093");
@@ -133,4 +133,45 @@ public Main{
   }
  }
 }
+```
+##6. Consuming Messages with Kafka Consumers and Consumer Groups
+###6 Demo: Simple Kafka Consumer
+alter partition number of a topic
+```
+bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic ke --partitions 4
+```
+code
+```
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.TopicPartition;
+import java.util.Properties;
+import java.util.ArrayList;
+public Con{
+ public static void main(String[] args){
+  Properties props = new Properties();
+  props.put("bootstrap.servers","localhost:9092,localhost:9093");
+  props.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
+  props.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
+  KafkaConsumer k = new KafkaConsumer(props);
+  ArrayList<TopicPartition> par = new ArrayList<TopicPartition>();
+  TopicPartition ke1 = new TopicPartition("ke2",0);
+  TopicPartition ke2 = new TopicPartition("ke1",0);
+  par.add(ke1);
+  par.add(ke2);
+  k.assign(par);
+  try{
+   while(true){
+    ConsumerRecords<String,String> records = k.poll(10);
+    for(ConsumerRecord<String,String> record:records){
+     System.out.println(String.format("Topic: %s,Partition: %d, Offset: %d, Key: %s, Value: %s", record.topic(), record.partition(),record.offset(), record.key(),record.value()));
+     }
+    }
+   }catch(Exception e){
+   }finally{
+    k.close();
+   }
+  }
+ } 
 ```
