@@ -100,3 +100,37 @@ consumer:
 ```
 bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic ke_rep --from-beginning
 ```
+##5. Producing Messages with Kafka Producers
+###2 Basics of Creating an Apache Kafka Producer
+Properties
+- bootstrap.servers
+- key.serializer
+- value.serializer
+
+###9 Demo: Creating and Running an Apache Kafka Producer Application in Java
+code
+```
+import org.apache.kafka clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import java.util.Properties;
+
+public Main{
+ public static void main(String[] args){
+  Properties props = new Properties();
+  props.put("bootstrap.servers","localhost:9092,localhost:9093");
+  props.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
+  props.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
+  KafkaProducer<String,String,> ke = new KafkaProducer<String,String>(props);
+  try{
+   for(int i=0;i<100;i++){
+    ke.send(new ProducerRecord<String,String>("topic",Integer.toString(i),"Message"+Integer.toString(i)));
+   }
+  }catch(Exception e){
+  e.printStackTrace();
+  }finally{
+  ke.close();
+  }
+ }
+}
+```
