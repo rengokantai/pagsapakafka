@@ -179,3 +179,6 @@ benchmark
 ```
 bin/kafka-producer-perf-test.sh --topic ke_rep --num-records 50 --record-size 1 --throughput 10 --producer-props bootstrap.servers=localhost:9092 key.serializer=org.apache.kafka.common.serialization.StringSerializer value.serializer=org.apache.kafka.common.serialization.StringSerializer
 ```
+
+###15 Demo: Consumer Groups
+
